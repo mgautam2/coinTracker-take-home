@@ -30,14 +30,12 @@ function LogIn() {
               value={name}
               onChange={handleChange}
               variant="outlined"
-              margin="normal"
               required
             />
             <TextField
               label="Password"
               type="password"
               variant="outlined"
-              margin="normal"
               required
             />
           </Box>

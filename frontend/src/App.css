@@ -6,9 +6,51 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-size: calc(10px + 2vmin);
   text-align: center;
   box-sizing: border-box;
-  font-size: calc(10px + 2vmin);
-  border: 1px red solid;
-} 
+}
 
+.dashboard-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: calc(10px + 2vmin);
+  box-sizing: border-box;
+  border: 5px black solid;
+}
+.search-container {
+  width: 45%;
+  min-width: 500px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 15vh;
+  border: 1px red solid;
+}
+
+.search-text-field {
+  width: 60%;
+}
+      
+
+.dashboard-data {
+  margin-top: 10vh;
+  width: 65%;
+  min-width: 800px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px red solid;
+}
+
+.wallet-list-container {
+  width: 30%;
+}
+
+.transaction-list-container {
+  width: 60%;
+}
