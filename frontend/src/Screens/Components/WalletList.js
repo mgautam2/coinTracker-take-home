@@ -1,28 +1,36 @@
 import React from "react";
+import { v4 } from "uuid";
 import { Box, Card, CardContent, Typography, Divider } from "@mui/material";
 
-export default function WalletList() {
+export default function WalletList({ wallets, onclick }) {
+  
   return (
-    <Box className='wallet-list-container'>
-        <Typography gutterBottom variant="h5" component="div">
+    <Box className="wallet-list-container">
+      <Typography gutterBottom variant="h5" component="div">
         Wallet List
-        </Typography>
-        <Wallet />
-        <Wallet />
+      </Typography>
+      {
+        wallets.length 
+        ? wallets.map((wallet) => <Wallet key={v4()} data={wallet} onclick={onclick}/>)
+        : ""
+      }
     </Box>
   );
 }
 
-function Wallet() {
+function Wallet({ data, onclick }) {
+  let len = data.length;
+  let shortenedData = data.substring(0, 10) + "...." + data.substring(len - 6);
   return (
-    <Card>
+    <Card 
+      className="wallet"
+      onClick={() => onclick(data)}
+      >
       <CardContent>
         <Typography variant="h6" component="div">
-          Wallet 1
+          {shortenedData}
         </Typography>
-        <Typography variant="body2">
-          Wallet Content
-        </Typography>
+        <Typography variant="body2">Wallet Content</Typography>
         <Divider />
       </CardContent>
     </Card>

@@ -6,8 +6,8 @@ const customAxios = axios.create({
 
 
 
-async function WalletInfo( address ) {
-    return await customAxios.get(`/rawaddr/${address}`)
+async function WalletInfo( address, offset = 0 ) {
+    return await customAxios.get(`/rawaddr/${address}?offset=${offset}&limit=10`)
                  .then(response => response.data)
                  .catch(error => {
                     throw(error)

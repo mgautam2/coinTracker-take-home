@@ -1,4 +1,3 @@
-
 .login-container {
   width: 100%;
   min-height: 100vh;
@@ -22,8 +21,9 @@
   box-sizing: border-box;
   border: 5px black solid;
 }
+
 .search-container {
-  width: 45%;
+  width: 60%;
   min-width: 500px;
   display: flex;
   justify-content: space-evenly;
@@ -33,24 +33,36 @@
 }
 
 .search-text-field {
-  width: 60%;
+  width: 65%;
 }
-      
 
 .dashboard-data {
   margin-top: 10vh;
-  width: 65%;
+  margin-bottom: 5vh;
+  width: 75%;
   min-width: 800px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   border: 1px red solid;
 }
 
 .wallet-list-container {
   width: 30%;
+  border: 1px black dotted;
+}
+
+.wallet {
+  transition: all 0.2s ease;
+  background-color: #fff;
+}
+
+.wallet:hover {
+  background-color: #dddddd;
+  transform: translateY(-0.2px);
 }
 
 .transaction-list-container {
-  width: 60%;
+  width: 65%;
+  border: 1px black dotted;
 }

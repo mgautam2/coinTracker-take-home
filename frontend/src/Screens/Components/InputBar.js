@@ -1,21 +1,23 @@
 import { useState } from "react";
 import { Box, TextField, Button } from "@mui/material";
 
-const SearchBar = ({ search }) => {
+const InputBar = ({ addWallet }) => {
   const [address, setAddress] = useState("");
 
   function handleChange({ target }) {
     setAddress(target.value);
   }
 
-  function handleClick() {}
+  function handleClick() {
+    addWallet(address);
+    setAddress("");
+  }
 
   return (
-    <Box className='search-container'>
+    <Box className="search-container">
       <TextField
         className="search-text-field"
         label="Wallet Address"
-        placeholder="Search transactions"
         value={address}
         onChange={handleChange}
       />
@@ -31,4 +33,4 @@ const SearchBar = ({ search }) => {
   );
 };
 
-export default SearchBar;
+export default InputBar;

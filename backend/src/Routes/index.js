@@ -13,6 +13,7 @@ router.get("/test", function (req, res) {
 });
 
 router.get("/getWallets", function (req, res) {
+  console.log("Get Wallet");
   const name = req.query.name;
 
   User.find({ name })
@@ -29,13 +30,14 @@ router.get("/getWallets", function (req, res) {
 });
 
 router.post("/addWallet", async function (req, res) {
+  console.log(" add Wallet");
   const { name, walletAddress } = req.body;
 
   try {
     let data = await api.WalletInfo(walletAddress);
   } catch (err) {
     let { response: errRes } = err;
-    res.status(errRes.status).json(errRes.data);
+    res.status(200).json(errRes.data);
     return;
   }
 
@@ -45,9 +47,10 @@ router.post("/addWallet", async function (req, res) {
       if (user) {
         // Check if the wallet address already exists
         if (user.walletAddress.includes(walletAddress)) {
-          return res
-            .status(400)
-            .json({ message: "Wallet address already exists." });
+          return res.json({
+            error: "not-found-or-invalid-arg",
+            message: "Wallet address already exists.",
+          });
         } else {
           // Add the wallet address to the user's walletAddress array
           user.walletAddress.push(walletAddress);
@@ -76,10 +79,11 @@ router.post("/addWallet", async function (req, res) {
 });
 
 router.post("/getTransactions", function (req, res) {
-  const { walletAddress } = req.body;
+  console.log("get Transactions")
+  const { walletAddress, offset } = req.body;
 
   api
-    .WalletInfo(walletAddress)
+    .WalletInfo(walletAddress, offset)
     .then((data) => {
       res.json(data);
     })
