@@ -1,10 +1,15 @@
+import { Routes, Route } from 'react-router-dom';
+
+import LogIn from './Screens/LogIn';
+import Dashboard from './Screens/Dashboard';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      Basic React App
-    </div>
+    <Routes>
+        <Route path="/" element={<LogIn />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+    </Routes>
   );
 }
 
