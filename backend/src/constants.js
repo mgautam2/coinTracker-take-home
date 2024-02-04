@@ -1,5 +1,5 @@
 const constants = {
-  PAGE_LIMIT: 10,
+  PAGE_LIMIT: 8,
   API_BASE_URL: "https://blockchain.info",
 };
 

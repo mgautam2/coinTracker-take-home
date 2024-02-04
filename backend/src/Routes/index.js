@@ -34,27 +34,23 @@ router.post("/addWallet", async function (req, res) {
   const { name, walletAddress } = req.body;
 
   try {
-    let data = await api.WalletInfo(walletAddress);
+    await api.WalletInfo(walletAddress);
   } catch (err) {
     let { response: errRes } = err;
     res.status(200).json(errRes.data);
     return;
   }
 
-  // Find the user by name
   User.findOne({ name })
     .then((user) => {
       if (user) {
-        // Check if the wallet address already exists
         if (user.walletAddress.includes(walletAddress)) {
           return res.json({
             error: "not-found-or-invalid-arg",
             message: "Wallet address already exists.",
           });
         } else {
-          // Add the wallet address to the user's walletAddress array
           user.walletAddress.push(walletAddress);
-          // Save the user
           return user
             .save()
             .then((savedUser) => {
@@ -65,7 +61,6 @@ router.post("/addWallet", async function (req, res) {
             });
         }
       } else {
-        // If user does not exist, create a new user
         return User.create({ name, walletAddress })
           .then((createdUser) => {
             res.json(createdUser);

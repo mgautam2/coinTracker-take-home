@@ -14,7 +14,8 @@ async function WalletInfo(address, page = 1) {
     )
     .then((response) => response.data)
     .catch((error) => {
-      throw error;
+      console.error('Error caught:', error);
+      throw new Error(error);
     });
 }
 

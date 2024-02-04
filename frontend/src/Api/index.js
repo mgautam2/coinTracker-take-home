@@ -1,7 +1,8 @@
 import axios from "axios";
+import constants from "../constants";
 
 const customAxios = axios.create({
-  baseURL: "http://localhost:4000",
+  baseURL: constants.SERVER_BASE_URL,
 });
 
 async function GetWallets(name) {

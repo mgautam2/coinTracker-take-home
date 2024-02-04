@@ -11,9 +11,11 @@ import {
 } from "@mui/material";
 
 import Api from "../../Api";
+import constants from "../../constants";
 
 export default function TransactionList({ wallet }) {
   const [walletInfo, setWalletInfo] = useState({});
+  const [page, setPage] = useState(1);
 
   const handlePageChange = (event, page) => {
     GetTransactions(wallet, page);
@@ -23,6 +25,7 @@ export default function TransactionList({ wallet }) {
     Api.GetTransactions(walletAddress, page)
       .then((data) => {
         console.log(data);
+        setPage(page)
         setWalletInfo(data);
       })
       .catch((err) => console.error(err));
@@ -48,7 +51,9 @@ export default function TransactionList({ wallet }) {
         : ""}
       {walletInfo.n_tx ? (
         <Pagination
-          count={Math.ceil(walletInfo.n_tx / 10)}
+          count={Math.floor(walletInfo.n_tx / constants.PAGE_LIMIT)}
+          page={page}
+          size="large"
           onChange={handlePageChange}
         />
       ) : (
