@@ -85,7 +85,8 @@ router.post("/getTransactions", function (req, res) {
       res.json(data);
     })
     .catch(({ response }) => {
-      res.status(400).json(response.data);
+      console.log(response)
+      res.status(400).json(response);
     });
 });
 
