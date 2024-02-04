@@ -22,10 +22,9 @@ async function AddWallet(name, walletAddress) {
     });
 }
 
-async function GetTransactions(walletAddress, offset = 0) {
-  console.log(offset)
+async function GetTransactions(walletAddress, page) {
   return await customAxios
-    .post(`/getTransactions`, { walletAddress, offset })
+    .post(`/getTransactions`, { walletAddress, page })
     .then((response) => response.data)
     .catch((error) => {
       throw error;

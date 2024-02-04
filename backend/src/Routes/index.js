@@ -80,10 +80,10 @@ router.post("/addWallet", async function (req, res) {
 
 router.post("/getTransactions", function (req, res) {
   console.log("get Transactions")
-  const { walletAddress, offset } = req.body;
+  const { walletAddress, page } = req.body;
 
   api
-    .WalletInfo(walletAddress, offset)
+    .WalletInfo(walletAddress, page)
     .then((data) => {
       res.json(data);
     })

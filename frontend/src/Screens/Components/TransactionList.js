@@ -15,19 +15,25 @@ import Api from "../../Api";
 export default function TransactionList({ wallet }) {
   const [walletInfo, setWalletInfo] = useState({});
 
-  console.log(walletInfo);
+  const handlePageChange = (event, page) => {
+    GetTransactions(wallet, page);
+  };
+
+  function GetTransactions(walletAddress, page = 1) {
+    Api.GetTransactions(walletAddress, page)
+      .then((data) => {
+        console.log(data);
+        setWalletInfo(data);
+      })
+      .catch((err) => console.error(err));
+  }
 
   useEffect(() => {
     if (wallet === "") {
       return;
     }
 
-    Api.GetTransactions(wallet, 1)
-      .then((data) => {
-        console.log(data);
-        setWalletInfo(data);
-      })
-      .catch((err) => console.error(err));
+    GetTransactions(wallet);
   }, [wallet]);
 
   return (
@@ -40,7 +46,14 @@ export default function TransactionList({ wallet }) {
             <Transaction key={v4()} data={transaction} />
           ))
         : ""}
-      {walletInfo.n_tx ? <Pagination count={walletInfo.n_tx / 10} /> : ""}
+      {walletInfo.n_tx ? (
+        <Pagination
+          count={Math.ceil(walletInfo.n_tx / 10)}
+          onChange={handlePageChange}
+        />
+      ) : (
+        ""
+      )}
     </Box>
   );
 }
