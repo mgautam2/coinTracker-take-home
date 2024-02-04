@@ -1,37 +1,69 @@
 import React from "react";
-import { v4 } from "uuid";
 import { Box, Card, CardContent, Typography, Divider } from "@mui/material";
+import Icon from "@mdi/react";
+import { mdiBitcoin } from "@mdi/js";
 
-export default function WalletList({ wallets, onclick }) {
-  
+export default function WalletList({ currWallet, wallets, onclick }) {
   return (
     <Box className="wallet-list-container">
-      <Typography gutterBottom variant="h5" component="div">
-        Wallet List
+      <Typography
+        gutterBottom
+        variant="h5"
+        component="div"
+        sx={{
+          color: "#898a8e",
+          fontSize: "20px",
+          fontWeight: "800",
+          textAlign: "center",
+          margin: "1vh",
+        }}
+      >
+        Wallets
       </Typography>
-      {
-        wallets.length 
-        ? wallets.map((wallet) => <Wallet key={v4()} data={wallet} onclick={onclick}/>)
-        : ""
-      }
+      {wallets.length
+        ? wallets.map((wallet) => (
+            <Wallet
+              key={wallet}
+              data={wallet}
+              currWallet={currWallet}
+              onclick={onclick}
+            />
+          ))
+        : ""}
     </Box>
   );
 }
 
-function Wallet({ data, onclick }) {
+function Wallet({ data, currWallet, onclick }) {
   let len = data.length;
-  let shortenedData = data.substring(0, 10) + "...." + data.substring(len - 6);
+  let shortenedData = data.substring(0, 5) + "..." + data.substring(len - 4);
   return (
-    <Card 
+    <Card
       className="wallet"
       onClick={() => onclick(data)}
-      >
-      <CardContent>
-        <Typography variant="h6" component="div">
+      sx={{
+        backgroundColor: "#10111c",
+      }}
+    >
+      <CardContent className="wallet-content">
+        <Icon
+          path={mdiBitcoin}
+          title="Wallet Picture"
+          size={1.5}
+          color="orange"
+          sx={{
+            backgroundColor: "white",
+          }}
+        />
+        <Typography
+          component="div"
+          sx={{
+            color: `${data === currWallet ? "#3694ff" : "white"}`,
+          }}
+        >
           {shortenedData}
         </Typography>
-        <Typography variant="body2">Wallet Content</Typography>
-        <Divider />
+        <Divider sx={{ borderColor: "white" }} />
       </CardContent>
     </Card>
   );

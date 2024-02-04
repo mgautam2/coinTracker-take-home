@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Card, CardContent, Button, TextField } from "@mui/material";
+import NavBar from "./Components/NavBar";
+import { mdiSolid } from "@mdi/js";
 
 function LogIn() {
   const navigate = useNavigate();
@@ -16,7 +18,14 @@ function LogIn() {
 
   return (
     <Box className="login-container">
-      <Card>
+      <NavBar />
+      <Card
+        className="login-card"
+        sx={{
+          backgroundColor: "#10111c",
+          color: "white",
+        }}
+      >
         <CardContent>
           <h2>Login</h2>
           <Box
@@ -30,19 +39,40 @@ function LogIn() {
               value={name}
               onChange={handleChange}
               variant="outlined"
+              sx={{
+                "& input": {
+                  border: "1px white solid",
+                  backgroundColor: "#1f1f2a",
+                  color: "white",
+                  marginRight : '1vh',
+                  "& .MuiInputBase-root-MuiInputBase-placeholder": {
+                    color: 'white',
+                  },
+                },
+              }}
               required
             />
             <TextField
               label="Password"
               type="password"
               variant="outlined"
+              sx={{
+                "& input": {
+                  border: "1px white solid",
+                  backgroundColor: "#1f1f2a",
+                  color: "white",
+                  "& .MuiInputBase-root-MuiInputBase-placeholder": {
+                    color: 'white',
+                  },
+                },
+              }}
               required
             />
           </Box>
           <Box mt={3}>
             <Button
               color="primary"
-              variant="outlined"
+              variant="contained"
               size="large"
               onClick={() => handleClick()}
             >

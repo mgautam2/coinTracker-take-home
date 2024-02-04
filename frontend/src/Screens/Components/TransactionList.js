@@ -9,6 +9,8 @@ import {
   Pagination,
   Typography,
 } from "@mui/material";
+import Icon from "@mdi/react";
+import { mdiArrowUpBold, mdiArrowDownBold, mdiBitcoin } from "@mdi/js";
 
 import Api from "../../Api";
 import constants from "../../constants";
@@ -25,7 +27,7 @@ export default function TransactionList({ wallet }) {
     Api.GetTransactions(walletAddress, page)
       .then((data) => {
         console.log(data);
-        setPage(page)
+        setPage(page);
         setWalletInfo(data);
       })
       .catch((err) => console.error(err));
@@ -41,13 +43,30 @@ export default function TransactionList({ wallet }) {
 
   return (
     <Box className="transaction-list-container">
-      <Typography gutterBottom variant="h5" component="div">
+      <Typography
+        gutterBottom
+        variant="h5"
+        component="div"
+        sx={{
+          color: "#898a8e",
+          fontSize: "20px",
+          fontWeight: "800",
+          textAlign: "center",
+          margin: "1vh",
+        }}
+      >
         Transaction List
       </Typography>
       {walletInfo.n_tx
-        ? walletInfo.txs.map((transaction) => (
-            <Transaction key={v4()} data={transaction} />
-          ))
+        ? walletInfo.txs.map((tn) => {
+            return (
+              <Transaction
+                key={v4()}
+                data={tn}
+                walletAddress={walletInfo.address}
+              />
+            );
+          })
         : ""}
       {walletInfo.n_tx ? (
         <Pagination
@@ -55,6 +74,11 @@ export default function TransactionList({ wallet }) {
           page={page}
           size="large"
           onChange={handlePageChange}
+          sx={{
+            backgroundColor: "#898a8e",
+            borderRadius: "10px",
+            margin: "auto",
+          }}
         />
       ) : (
         ""
@@ -63,16 +87,57 @@ export default function TransactionList({ wallet }) {
   );
 }
 
-function Transaction({ data }) {
+function Transaction({ data, walletAddress }) {
+  function satoshiToBTC(satoshis) {
+    return satoshis / 1000000000;
+  }
+
+  function getFormattedDateTime(ts) {
+    const options = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+    };
+
+    const formattedDateTime = new Date(ts * 1000).toLocaleDateString(
+      "en-US",
+      options
+    );
+
+    return formattedDateTime;
+  }
+
+  const recieved = data.result > 0 ? true : false;
+
   return (
     <Card>
-      <CardContent>
-        <Typography variant="h6" component="div">
-          {data.hash}
-        </Typography>
-        <Typography variant="body2">
-          This is some sample content for the first transaction.
-        </Typography>
+      <CardContent className="transaction">
+        <div className="txs-content">
+          <div className="txs-icon">
+            {recieved ? (
+              <Icon path={mdiArrowUpBold} size={1.4} color="green" />
+            ) : (
+              <Icon path={mdiArrowDownBold} size={1.4} color="red" />
+            )}
+          </div>
+          <div className="txs-data">
+            <div className="txs-status">
+              {" "}
+              {recieved ? " Recieved" : " Sent"}
+            </div>
+            <div className="txs-time"> {getFormattedDateTime(data.time)}</div>
+          </div>
+        </div>
+        <div className="txs-amount">
+          {
+            <>
+              <Icon path={mdiBitcoin} size={0.8} color="orange" /> 
+              {satoshiToBTC(data.result)} BTC
+            </>
+          }
+        </div>
         <Divider />
       </CardContent>
     </Card>

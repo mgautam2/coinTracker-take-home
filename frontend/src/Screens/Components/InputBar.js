@@ -15,20 +15,33 @@ const InputBar = ({ addWallet }) => {
 
   return (
     <Box className="search-container">
+      <Box className="search-header">
+        <Box>Wallets</Box>
+        <Button
+          color="primary"
+          variant="contained"
+          size="large"
+          onClick={() => handleClick()}
+        >
+          Add Wallet
+        </Button>
+      </Box>
       <TextField
         className="search-text-field"
-        label="Wallet Address"
+        placeholder="Type to find a wallet"
         value={address}
+        sx={{
+          backgroundColor: "#10111c",
+          '& input': {
+            color: 'white',
+          },
+          "&:hover": {
+            outline: "1.5px solid #3694ff",
+            borderRadius: '3px'
+          },
+        }}
         onChange={handleChange}
       />
-      <Button
-        color="primary"
-        variant="outlined"
-        size="large"
-        onClick={() => handleClick()}
-      >
-        Add Wallet
-      </Button>
     </Box>
   );
 };

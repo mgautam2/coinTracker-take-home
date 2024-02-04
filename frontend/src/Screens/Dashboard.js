@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Box, Snackbar } from "@mui/material";
 
+import NavBar from "./Components/NavBar";
 import InputBar from "./Components/InputBar";
 import WalletList from "./Components/WalletList";
 import TransactionList from "./Components/TransactionList";
@@ -50,9 +51,10 @@ function Dashboard() {
 
   return (
     <Box className="dashboard-container">
+      <NavBar/>
       <InputBar addWallet={addWallet} />
       <Box className="dashboard-data">
-        <WalletList wallets={walletList} onclick={selectWallet} />
+        <WalletList currWallet={currWallet} wallets={walletList} onclick={selectWallet} />
         <TransactionList wallet={currWallet} />
       </Box>
       <Snackbar
