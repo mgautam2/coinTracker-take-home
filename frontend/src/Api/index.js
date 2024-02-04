@@ -23,6 +23,15 @@ async function AddWallet(name, walletAddress) {
     });
 }
 
+async function RemoveWallet(name, walletAddress) {
+  return await customAxios
+    .post(`/removeWallet`, { name, walletAddress })
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+}
+
 async function GetTransactions(walletAddress, page) {
   return await customAxios
     .post(`/getTransactions`, { walletAddress, page })
@@ -35,5 +44,6 @@ async function GetTransactions(walletAddress, page) {
 export default {
   GetWallets,
   AddWallet,
+  RemoveWallet,
   GetTransactions,
 };

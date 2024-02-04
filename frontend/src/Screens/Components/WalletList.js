@@ -1,10 +1,15 @@
 import React from "react";
 import { Box, Card, CardContent, Typography, Divider } from "@mui/material";
 import Icon from "@mdi/react";
-import { mdiBitcoin } from "@mdi/js";
+import { mdiBitcoin, mdiTrashCan } from "@mdi/js";
 import { shortenAddress } from "../utils";
 
-export default function WalletList({ currWallet, wallets, onclick }) {
+export default function WalletList({
+  currWallet,
+  wallets,
+  selectWallet,
+  removeWallet,
+}) {
   return (
     <Box className="wallet-list-container">
       <Typography
@@ -27,7 +32,8 @@ export default function WalletList({ currWallet, wallets, onclick }) {
               key={wallet}
               data={wallet}
               currWallet={currWallet}
-              onclick={onclick}
+              selectWallet={selectWallet}
+              removeWallet={removeWallet}
             />
           ))
         : ""}
@@ -35,11 +41,11 @@ export default function WalletList({ currWallet, wallets, onclick }) {
   );
 }
 
-function Wallet({ data, currWallet, onclick }) {
+function Wallet({ data, currWallet, selectWallet, removeWallet }) {
   return (
     <Card
       className="wallet"
-      onClick={() => onclick(data)}
+      onClick={() => selectWallet(data)}
       sx={{
         backgroundColor: "#10111c",
       }}
@@ -62,6 +68,19 @@ function Wallet({ data, currWallet, onclick }) {
         >
           {shortenAddress(data)}
         </Typography>
+        <Box className='wallet-delete'>
+          <Icon
+            path={mdiTrashCan}
+            title="Wallet Picture"
+            size={1}
+            color="white"
+            sx={{
+              backgroundColor: "white",
+            }}
+            onClick={(e) => removeWallet(e, data)}
+          />
+        </Box>
+
         <Divider sx={{ borderColor: "white" }} />
       </CardContent>
     </Card>

@@ -74,7 +74,39 @@ router.post("/addWallet", async function (req, res) {
     })
     .catch((err) => res.status(500).json(err));
 });
+router.post("/removeWallet", async function (req, res) {
+  console.log("Remove Wallet");
+  const { name, walletAddress } = req.body;
 
+  try {
+    const user = await User.findOne({ name });
+
+    if (!user) {
+      return res.status(404).json({
+        error: "not-found",
+        message: "User not found",
+      });
+    }
+
+    if (!user.walletAddress.includes(walletAddress)) {
+      return res.status(400).json({
+        error: "invalid-arg",
+        message: "Wallet Address does not exist for this user",
+      });
+    }
+
+    user.walletAddress = user.walletAddress.filter(
+      (address) => address !== walletAddress
+    );
+
+    await user.save();
+
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json(err);
+  }
+});
 router.post("/getTransactions", function (req, res) {
   console.log("get Transactions");
   const { walletAddress, page } = req.body;
@@ -85,7 +117,7 @@ router.post("/getTransactions", function (req, res) {
       res.json(data);
     })
     .catch(({ response }) => {
-      console.log(response)
+      console.log(response);
       res.status(400).json(response);
     });
 });

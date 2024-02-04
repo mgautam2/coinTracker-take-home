@@ -19,8 +19,29 @@ function Dashboard() {
 
   function selectWallet(newWallet) {
     if (currWallet === newWallet) return;
-
     setCurrWallet(newWallet);
+  }
+
+  function removeWallet(event, walletAddress) {
+    event.preventDefault();
+    event.stopPropagation();
+    if(currWallet === walletAddress)
+      setCurrWallet("");
+    remove(walletAddress);
+    
+  }
+
+  function remove(address) {
+    Api.RemoveWallet(username, address)
+      .then((data) => {
+        if (!data.error) {
+          console.log(data);
+          getWallet();
+        } else {
+          createSnackBar(data.message);
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
   function createSnackBar(message) {
@@ -28,8 +49,8 @@ function Dashboard() {
     setSnackBarOpen(true);
   }
 
-  function addWallet(walletAddress) {
-    Api.AddWallet(username, walletAddress)
+  function addWallet(address) {
+    Api.AddWallet(username, address)
       .then((data) => {
         if (!data.error) {
           console.log(data);
@@ -55,10 +76,15 @@ function Dashboard() {
 
   return (
     <Box className="dashboard-container">
-      <NavBar/>
+      <NavBar />
       <InputBar addWallet={addWallet} />
       <Box className="dashboard-data">
-        <WalletList currWallet={currWallet} wallets={walletList} onclick={selectWallet} />
+        <WalletList
+          currWallet={currWallet}
+          wallets={walletList}
+          selectWallet={selectWallet}
+          removeWallet={removeWallet}
+        />
         <TransactionList wallet={currWallet} snackBar={createSnackBar} />
       </Box>
       <Snackbar

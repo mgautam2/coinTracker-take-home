@@ -147,13 +147,21 @@
   margin-left: 2vh;
 }
 
+.wallet-delete {
+  z-index: 3;
+}
+.wallet-delete:hover {
+  transform: scale(1.3); 
+}
+
+
 .transaction {
   display: flex;
   justify-content: space-around;
   align-items: center;
   background-color: #10111c;
   color: white;
-  font-size: small;
+  font-size: medium;
 }
 
 .txs-amount {
@@ -164,7 +172,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: small;
+  font-size: medium;
 }
 
 .txs-icon {
@@ -178,5 +186,5 @@
 }
 
 .txs-time {
-  font-size: smaller;
+  font-size: small;
 }

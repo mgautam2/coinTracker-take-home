@@ -39,6 +39,7 @@ export default function TransactionList({ wallet, snackBar }) {
 
   useEffect(() => {
     if (wallet === "") {
+      setWalletInfo({})
       return;
     }
 
@@ -105,7 +106,7 @@ function WalletStats({ walletInfo, snackBar }) {
         <div> {`Bitcoin Wallet ${shortenAddress(address)}`}</div>
         <div className="wallet-address-copy" onClick={() => handleClick(address)}>
           {" "}
-          <Icon path={mdiContentCopy} size={0.75} />
+          <Icon path={mdiContentCopy} size={0.85} />
         </div>
       </div>
       <div className="wallet-balance">
@@ -126,9 +127,9 @@ function Transaction({ data }) {
         <div className="txs-content">
           <div className="txs-icon">
             {recieved ? (
-              <Icon path={mdiArrowUpBold} size={1.4} color="green" />
+              <Icon path={mdiArrowUpBold} size={1.6} color="green" />
             ) : (
-              <Icon path={mdiArrowDownBold} size={1.4} color="red" />
+              <Icon path={mdiArrowDownBold} size={1.6} color="red" />
             )}
           </div>
           <div className="txs-data">
@@ -142,8 +143,8 @@ function Transaction({ data }) {
         <div className="txs-amount">
           {
             <>
-              <Icon path={mdiBitcoin} size={0.8} color="orange" />
-              {satoshiToBTC(data.result)} BTC
+              <Icon path={mdiBitcoin} size={1.2} color="orange" />
+              {` ${satoshiToBTC(data.result)} BTC`}
             </>
           }
         </div>
