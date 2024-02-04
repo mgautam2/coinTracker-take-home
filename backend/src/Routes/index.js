@@ -36,9 +36,11 @@ router.post("/addWallet", async function (req, res) {
   try {
     await api.WalletInfo(walletAddress);
   } catch (err) {
-    let { response: errRes } = err;
-    res.status(200).json(errRes.data);
-    return;
+    let { response } = err;
+    return res.json({
+      error: "not-found-or-invalid-arg",
+      message: "Invalid Wallet Address",
+    });
   }
 
   User.findOne({ name })
@@ -47,7 +49,7 @@ router.post("/addWallet", async function (req, res) {
         if (user.walletAddress.includes(walletAddress)) {
           return res.json({
             error: "not-found-or-invalid-arg",
-            message: "Wallet address already exists.",
+            message: "Wallet Address already exists",
           });
         } else {
           user.walletAddress.push(walletAddress);
@@ -74,7 +76,7 @@ router.post("/addWallet", async function (req, res) {
 });
 
 router.post("/getTransactions", function (req, res) {
-  console.log("get Transactions")
+  console.log("get Transactions");
   const { walletAddress, page } = req.body;
 
   api
@@ -83,7 +85,7 @@ router.post("/getTransactions", function (req, res) {
       res.json(data);
     })
     .catch(({ response }) => {
-      res.status(response.status).json(response.data);
+      res.status(400).json(response.data);
     });
 });
 
