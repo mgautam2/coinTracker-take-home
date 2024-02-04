@@ -15,7 +15,6 @@
 ### Start the Client
 
 - In the client directory, start the client by running `yarn start` or `npm start`.
-- The client will start on port 3000 and will communicate with the server via the API URL defined in the `REACT_APP_API_URL` environment variable.
 
 ## Design
 
