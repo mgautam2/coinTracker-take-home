@@ -23,6 +23,11 @@ function Dashboard() {
     setCurrWallet(newWallet);
   }
 
+  function createSnackBar(message) {
+    setSnackBarMsg(message);
+    setSnackBarOpen(true);
+  }
+
   function addWallet(walletAddress) {
     Api.AddWallet(username, walletAddress)
       .then((data) => {
@@ -30,8 +35,7 @@ function Dashboard() {
           console.log(data);
           getWallet();
         } else {
-          setSnackBarMsg(data.message);
-          setSnackBarOpen(true);
+          createSnackBar(data.message);
         }
       })
       .catch((err) => console.error(err));
@@ -55,7 +59,7 @@ function Dashboard() {
       <InputBar addWallet={addWallet} />
       <Box className="dashboard-data">
         <WalletList currWallet={currWallet} wallets={walletList} onclick={selectWallet} />
-        <TransactionList wallet={currWallet} />
+        <TransactionList wallet={currWallet} snackBar={createSnackBar} />
       </Box>
       <Snackbar
         open={snackbarOpen}

@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Card, CardContent, Typography, Divider } from "@mui/material";
 import Icon from "@mdi/react";
 import { mdiBitcoin } from "@mdi/js";
+import { shortenAddress } from "../utils";
 
 export default function WalletList({ currWallet, wallets, onclick }) {
   return (
@@ -35,8 +36,6 @@ export default function WalletList({ currWallet, wallets, onclick }) {
 }
 
 function Wallet({ data, currWallet, onclick }) {
-  let len = data.length;
-  let shortenedData = data.substring(0, 5) + "..." + data.substring(len - 4);
   return (
     <Card
       className="wallet"
@@ -61,7 +60,7 @@ function Wallet({ data, currWallet, onclick }) {
             color: `${data === currWallet ? "#3694ff" : "white"}`,
           }}
         >
-          {shortenedData}
+          {shortenAddress(data)}
         </Typography>
         <Divider sx={{ borderColor: "white" }} />
       </CardContent>

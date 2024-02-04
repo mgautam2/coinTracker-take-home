@@ -122,12 +122,37 @@
   border-radius: 15px;
 }
 
+.wallet-stat {
+  height: 9vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  font-size: large;
+  color: white;
+  background-color: #10111c;
+}
+
+.wallet-address-stat {
+  margin-bottom: 1vh;
+  margin-left: 2vh;
+  display: flex;
+}
+
+.wallet-address-copy {
+  margin-left: 0.5vh;
+}
+
+.wallet-balance {
+  margin-left: 2vh;
+}
+
 .transaction {
   display: flex;
   justify-content: space-around;
   align-items: center;
   background-color: #10111c;
-  color:white;
+  color: white;
   font-size: small;
 }
 
@@ -143,14 +168,12 @@
 }
 
 .txs-icon {
-  
 }
 
 .txs-data {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  border: 1px black solid;
   font-size: medium;
 }
 

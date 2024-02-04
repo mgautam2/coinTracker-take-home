@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { v4 } from "uuid";
 import {
   Box,
   Button,
@@ -10,12 +9,17 @@ import {
   Typography,
 } from "@mui/material";
 import Icon from "@mdi/react";
-import { mdiArrowUpBold, mdiArrowDownBold, mdiBitcoin } from "@mdi/js";
-
+import {
+  mdiArrowUpBold,
+  mdiArrowDownBold,
+  mdiBitcoin,
+  mdiContentCopy,
+} from "@mdi/js";
+import { satoshiToBTC, getFormattedDateTime, shortenAddress } from "../utils";
 import Api from "../../Api";
 import constants from "../../constants";
 
-export default function TransactionList({ wallet }) {
+export default function TransactionList({ wallet, snackBar }) {
   const [walletInfo, setWalletInfo] = useState({});
   const [page, setPage] = useState(1);
 
@@ -43,29 +47,28 @@ export default function TransactionList({ wallet }) {
 
   return (
     <Box className="transaction-list-container">
-      <Typography
-        gutterBottom
-        variant="h5"
-        component="div"
-        sx={{
-          color: "#898a8e",
-          fontSize: "20px",
-          fontWeight: "800",
-          textAlign: "center",
-          margin: "1vh",
-        }}
-      >
-        Transaction List
-      </Typography>
+      {walletInfo.n_tx ? (
+        <WalletStats walletInfo={walletInfo} snackBar={snackBar} />
+      ) : (
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="div"
+          sx={{
+            color: "#898a8e",
+            fontSize: "20px",
+            fontWeight: "800",
+            textAlign: "center",
+            margin: "1vh",
+          }}
+        >
+          Select a Wallet
+        </Typography>
+      )}
+
       {walletInfo.n_tx
         ? walletInfo.txs.map((tn) => {
-            return (
-              <Transaction
-                key={v4()}
-                data={tn}
-                walletAddress={walletInfo.address}
-              />
-            );
+            return <Transaction key={tn.hash} data={tn} />;
           })
         : ""}
       {walletInfo.n_tx ? (
@@ -87,33 +90,39 @@ export default function TransactionList({ wallet }) {
   );
 }
 
-function Transaction({ data, walletAddress }) {
-  function satoshiToBTC(satoshis) {
-    return satoshis / 1000000000;
-  }
+function WalletStats({ walletInfo, snackBar }) {
+  const { address, final_balance } = walletInfo;
 
-  function getFormattedDateTime(ts) {
-    const options = {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-    };
+  function handleClick(walletAddress) {
+    navigator.clipboard.writeText(walletAddress).then(() => {
+      snackBar("Address copied to clipboard");
+    });
+  };
 
-    const formattedDateTime = new Date(ts * 1000).toLocaleDateString(
-      "en-US",
-      options
-    );
+  return (
+    <div className="wallet-stat">
+      <div className="wallet-address-stat">
+        <div> {`Bitcoin Wallet ${shortenAddress(address)}`}</div>
+        <div className="wallet-address-copy" onClick={() => handleClick(address)}>
+          {" "}
+          <Icon path={mdiContentCopy} size={0.75} />
+        </div>
+      </div>
+      <div className="wallet-balance">
+        {" "}
+        {`${satoshiToBTC(final_balance)} BTC`}{" "}
+      </div>
+    </div>
+  );
+}
 
-    return formattedDateTime;
-  }
-
+function Transaction({ data }) {
   const recieved = data.result > 0 ? true : false;
 
   return (
     <Card>
       <CardContent className="transaction">
+        <Divider />
         <div className="txs-content">
           <div className="txs-icon">
             {recieved ? (
@@ -133,7 +142,7 @@ function Transaction({ data, walletAddress }) {
         <div className="txs-amount">
           {
             <>
-              <Icon path={mdiBitcoin} size={0.8} color="orange" /> 
+              <Icon path={mdiBitcoin} size={0.8} color="orange" />
               {satoshiToBTC(data.result)} BTC
             </>
           }
